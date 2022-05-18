@@ -24,6 +24,25 @@
         SELECT * FROM STUDENT WHERE ID = #{id};
     </select>
 
+    <select id="getStudentByName" parameterType="Student" resultType="Student">
+        SELECT * FROM STUDENT
+        <if test="name != null">
+            WHERE NAME LIKE #{name};
+        </if>
+    </select>
+
+    <select id = "getStudentByName_Id_phone" parameterType = "Student" resultType = "Student">
+        SELECT * FROM Student WHERE id != 0
+        <choose>
+            <when test = "name != null">
+                AND name LIKE #{name}
+            </when>
+            <when test = "phone != 0">
+                AND phone LIKE #{phone}
+            </when>
+        </choose>
+    </select>
+
     <resultMap id = "result" type = "Student">
         <result property = "id" column = "ID"/>
         <result property = "name" column = "NAME"/>

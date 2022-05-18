@@ -28,6 +28,16 @@ public class StudentServiceImpl implements StudentService {
         return studentMapper.selectAllStudent();
     }
 
+    @Override
+    public List<Student> getStudentByName(Student student) {
+        return studentMapper.getStudentByName(student);
+    }
+
+    @Override
+    public List<Student> getStudentByName_Id_phone(Student student) {
+        return studentMapper.getStudentByName_Id_phone(student);
+    }
+
     public Student selectStudentById(int studentId) {
         return studentMapper.selectStudentById(studentId);
     }
