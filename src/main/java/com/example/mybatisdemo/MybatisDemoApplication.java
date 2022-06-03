@@ -18,7 +18,7 @@ public class MybatisDemoApplication {
         StudentService studentService = (StudentService) context.getBean("studentService");
 
         // create student
-        Student student1 = new Student("CongSon", "Spring", 100, 849589, "thuydam@gmail.com");
+        Student student1 = new Student("Thuy thuong gia", "Spring", 100, 849589, "thuydam@gmail.com");
 //        Student student2 = new Student("Quang", "React", 100, 456, "quang@gmail.com");
 //        Student student3 = new Student("Thuy", "Angular", 100, 789, "thuy@gmail.com");
 
