@@ -1,0 +1,147 @@
+Nhúng js
+1. Internal -> <script>js code here </script>
+2. External -> <script src="/path/to/script.js"></script>
+Note: Chỉ những đọan script cực kì đơn giản thì mới dùng internal. Những file phức tạp hơn thì để external
+Lợi ích của việc này là trình duyệt sẽ download và lưu n vào cache
+Các page khác reference đến cùng script sẽ lấy từ cache thay vì download lạ, vì thế script sẽ chỉ cần down 1 lần duy nhất giúp giảm traffic và page chạy nhanh hơn
+
+<script src="file.js">
+  alert(1); // đoạn này ko chạy vì có khai báo src rồi
+</script>\
+
+========= USE STRICT - modern mode
+đặt ở đầu của file - 
+
+========= VARIABLE
+Sử dụng từ khóa let để khai báo biến trong JS: 
+VD: let message = 'Hello';
+Ngoài ra var cũng được dùng để khai báo biến (nhưng cách này đã cũ)
+!!! Biến chỉ được khai báo 1 lần
+Khai báo trùng biến sẽ gây ra lỗi 
+let message = "This";
+let message = "That";
+Khai báo hằng số: const myBirthday = '18.04.1982';
+========= DATA TYPES
+Number: đại diện cho cả integer và floating point number 
+special numeric values: Infinity, -Infinity, NaN
+nhúng biến và expression vào 1 string: ${variable}
+boolean: true, false
+null: tham chiếu đến 1 non-existing object, hoặc null pointer
+undefined: giá trị chưa được gán
+object: 1 đối tượng lưu trữ 1 tập các data và nhiều các thực thể phức tạp
+typeof: kiểm tra kiểu của toán hạng truyền vào
+VD:
+typeof undefined // "undefined"
+typeof 10n // "bigint"
+...
+========= INTERACTION 
+alert: hiển thị message ở (modal window) và chờ khi nào bấm ok thì mới ẩn đi
+prompt: show ra 1 modal window với 1 text message, 1 input field để người dùng nhập, sau đó nhấn OK/Cancel
+confirm: show ra modal window với 1 question và 2 button OK và Cancel, trả về true nếu bấm OK, false khi bấm Cancel
+
+========= TYPE CONVERSIONS
+String: string conversion xảy ra khi chúng ta cần dạng chuỗi của 1 giá trị: alert(typeof value);
+Numeric: numeric conversion tự động xảy ra trong các phép toán và biểu thức: 
+VD: alert( "6" / "2" ); // 3, strings are converted to numbers
+numeric conversion rules: 
+undefined -> NaN
+null -> 0
+true and false -> 1 and 0
+string: ban đầu clear hết khoảng trắng (\t, \n, space).
+	empty string -> 0
+	"has value" -> NaN
+
+Boolean: false: 0, empty string, null, undefined, NaN
+	 true: các trường hợp còn lại
+	 
+!!!! String with zero "0" is true
+alert(Boolean("0") // true
+========= BASIC OPERATOR
+operand(toán hạng): là đối tượng của toán tử: VD 5 * 2 : 5 và 2 là toán hạng, * là toán tử
+unary(đơn nguyên): một toán tử là đơn nguyên khi nó chỉ có 1 toán hạng: x = -x 
+binary(nhị phân): một toán tử là nhị phân khi nó có 2 toán hạng
+
+unary plus: không ảnh hưởng gì tới biến 
+// No effect on numbers
+let x = 1;
+alert( +x ); // 1
+
+let y = -2;
+alert( +y ); // -2
+
+
+========= COMPARISIONS
+SPECIAL
+alert( null == undefined ); // true 
+alert( null === undefined ); // false
+Strict equality: ===
+check thông thường (==) không phân biệt được 0 và false
+alert(0 == false); // true
+alert('' == false); // true
+1 strict equality === check equality mà không tự động chuyển đổi type khi compare
+alert (0 === false); //false, bởi vì đây là 2 kiểu khác nhau
+Strict non-equality: !== cũng có cơ chế tương tự
+Strange result: null vs 0
+alert( null > 0 );  // (1) false
+alert( null == 0 ); // (2) false
+alert( null >= 0 ); // (3) true
+equality (==) và comparision(> < >= <=) hoạt động khác nhau. comparision convert null thành 0 và thực hiện so sánh  
+UNDEFINED 
+alert( undefined > 0 ); // false (1)
+alert( undefined < 0 ); // false (2)
+alert( undefined == 0 ); // false (3)
+
+(1),(2) => convert to NaN và NaN là một special numeric value 
+(3) false vì undefined chỉ equal null và chính nó, ngoài ra không còn gì cả
+
+========= LOGICAL OPERATORS
+OR(||): Nếu bất kỳ argument trong biểu thức logic là true thì giá trị trả về là true
+EXTRA FEATURES
+1. Lấy giá trị true đầu tiên từ list variables của expressions
+result = value1 || value2 || value3;
+- evaluate các toán hạng trừ trái qua phải
+- mỗi toán hạng convert nó thành giá trị boolean. Nếu là true, stop việc evaluate và trả về giá trị của toán hạng đó
+- nếu tất cả toán hạng đều là false, thì sẽ trả về toán hạng cuối cùng
+Giá trị trả về ở dạng origin form chứ kp là dạng đã conversion. Nói cách khác 1 chuỗi boolean OR sẽ trả về giá trị true đầu tiên hoặc giá trị cuối cùng nếu ko có truthy value nào được tìm thấy
+2. Short-circuit evaluation (ngắn mạch)
+- xử lý các argument của nó cho đến khi tìm thấy gtri truthy đầu tiên,  thậm chí ko cần evaluate các argument khác
+- Tầm quan trọng của của tính năng này trở nên rõ ràng nếu một toán hạng ko chỉ là 1 giá trị, nhưng 1 biểu thức với side effect, ví dụ như 1 gán biến hoặc gọi hàm
+true || alert("not printed"); // việc evaluation dừng ngay khi tìm thấy gtri true, nên các phần phía sau sẽ bị bỏ qua
+false || alert("printed"); // message printed
+Đôi khi mọi người dùng tính năng này để thực thi command chỉ khi điều kiện ở phần bên trái là falsy
+AND(&&)
+1. Tìm giá trị falsy đầu tiên
+result = value1 && value2 && value3;
+- evaluate từ trái qua phải
+- mỗi toán hạng, convert về boolean. Nếu kết quả là false, stop và trả về gtri origin của toán hạng đó
+- Nếu tất cả các toán hạng đã được evaluate và đều true, trả về toán hạng cuối cùng
+Nói cách khác, AND trả về gtri false đầu tiên hoặc gtri cuối cùng nếu không tìm được gtri false nào
+đoạn này khá giống vs AND, ngoại trừ việc AND trả về tri falsy đầu tiên trong khi OR trả về gtri truthy
+// if the first operand is truthy,
+// AND returns the second operand:
+alert( 1 && 0 ); // 0
+alert( 1 && 5 ); // 5
+
+// if the first operand is falsy,
+// AND returns it. The second operand is ignored
+alert( null && 5 ); // null
+alert( 0 && "no matter what" ); // 0
+IIII: Độ ưu tiên ủa AND cao hơn OR: a && b || c && d ==> (a && b) || (c && d) actual
+NOT (!)
+result = !value;
+- convert toán hạng sang kiểu boolean: true/false
+- trả về gtri nghịch đảo
+alert( !true ); // false
+alert( !0 ); // true
+
+double not đôi khi được dùng để convert 1 gtri sang kiểu boolean
+alert( !!"non-empty string" ); // true
+alert( !!null ); // false
+
+Nghĩa là, cái đầu tiên KHÔNG chuyển đổi giá trị thành boolean và trả về giá trị nghịch đảo, và cái thứ hai KHÔNG đảo ngược lại giá trị đó. Cuối cùng, chúng tôi có một chuyển đổi giá trị đơn giản thành boolean.
+III. Độ ưu tiên của NOT là cao nhất trong tất cả nên n luôn được thực hiện trước
+========= NULLCOALESING (??)
+- Cung cấp 1 cách ngắn gọn để chọn phần giá trị được define đầu tiên trong list. Nó được dùng để gán giá trị mặc định cho variable:
+// set height=100, if height is null or undefined
+height = height ?? 100;
+?? returns the first defined value.
